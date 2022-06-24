@@ -22,11 +22,12 @@ export async function getOrders(req, res) {
             if (orders.rowCount === 0) {
                 return res.status(404).send([])
             }
+            
 
             const object = orders.rows.map(order => {
                 const { clientid, clientname, clientaddress, clientphone,
                     cakeid, cakename, cakeprice, cakedescription, cakeimage,
-                    createdAt, quantity, totalPrice } = order
+                    flavoursname, createdAt, quantity, totalPrice, isDelivered } = order
                 return {
                     client: {
                         id: clientid,
@@ -39,11 +40,13 @@ export async function getOrders(req, res) {
                         name: cakename,
                         price: cakeprice,
                         description: cakedescription,
-                        image: cakeimage
+                        image: cakeimage,
+                        flavour: flavoursname
                     },
                     createdAt: createdAt,
                     quantity: quantity,
-                    totalPrice: totalPrice
+                    totalPrice: totalPrice,
+                    isDelivered: isDelivered
                 }
             })
 
@@ -56,13 +59,15 @@ export async function getOrders(req, res) {
     } else {
         try {
             const orders = await orderRepository.getOrders()
+            
             if (orders.rowCount === 0) {
                 return res.status(404).send([])
             }
+            console.log(orders.rows)
             const object = orders.rows.map(order => {
                 const { clientid, clientname, clientaddress, clientphone,
                     cakeid, cakename, cakeprice, cakedescription, cakeimage,
-                    createdAt, quantity, totalPrice } = order
+                    flavoursname, createdAt, quantity, totalPrice, isDelivered } = order
                 return {
                     client: {
                         id: clientid,
@@ -75,11 +80,13 @@ export async function getOrders(req, res) {
                         name: cakename,
                         price: cakeprice,
                         description: cakedescription,
-                        image: cakeimage
+                        image: cakeimage,
+                        flavour: flavoursname
                     },
                     createdAt: createdAt,
                     quantity: quantity,
-                    totalPrice: totalPrice
+                    totalPrice: totalPrice,
+                    isDelivered: isDelivered
                 }
             })
 
@@ -103,7 +110,7 @@ export async function getOrdersByID(req, res) {
         const object = orders.rows.map(order => {
             const { clientid, clientname, clientaddress, clientphone,
                 cakeid, cakename, cakeprice, cakedescription, cakeimage,
-                createdAt, quantity, totalPrice } = order
+                flavoursname, createdAt, quantity, totalPrice, isDelivered } = order
             return {
                 client: {
                     id: clientid,
@@ -116,16 +123,31 @@ export async function getOrdersByID(req, res) {
                     name: cakename,
                     price: cakeprice,
                     description: cakedescription,
-                    image: cakeimage
+                    image: cakeimage,
+                    flavour: flavoursname
                 },
                 createdAt: createdAt,
                 quantity: quantity,
-                totalPrice: totalPrice
+                totalPrice: totalPrice,
+                isDelivered: isDelivered
             }
         })
 
         res.status(200).send(object)
     } catch (error) {
         res.status(500).send(error)
+    }
+}
+
+export async function updateIsDelivered(req,res){
+    const {id} = req.params
+
+    try{
+
+        await orderRepository.updateIsDelivered(id)
+        res.sendStatus(204)
+
+    } catch(error){
+        res.sendStatus(500)
     }
 }

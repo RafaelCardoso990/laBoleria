@@ -1,9 +1,11 @@
  CREATE TABLE "cakes" (
 	"id" serial NOT NULL,
-	"name" varchar NOT NULL UNIQUE,
+	"name" varchar NOT NULL,
 	"price" numeric NOT NULL,
 	"image" varchar NOT NULL,
-	"description" TEXT 
+	"description" TEXT NOT NULL,
+	"flavourId" integer NOT NULL
+
 );
 
 
@@ -23,5 +25,21 @@ CREATE TABLE "orders" (
 	"cakeId" integer NOT NULL,
 	"quantity" integer NOT NULL,
 	"createdAt" timestamp with time zone NOT NULL DEFAULT 'NOW()',
-	"totalPrice" numeric NOT NULL
+	"totalPrice" numeric NOT NULL,
+	"isDelivered" BOOLEAN NOT NULL DEFAULT 'false'
 );
+
+
+
+CREATE TABLE "flavours" (
+	"id" serial NOT NULL,
+	"name" varchar NOT NULL
+);
+
+
+
+
+
+
+
+

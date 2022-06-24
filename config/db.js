@@ -6,6 +6,7 @@ dotenv.config();
 const {Pool} = pg
 
 const configDataBase = {connectionString: process.env.DATABASE_URL}
+
 if(process.env.MODE === "PROD") {
     configDataBase.ssl = {rejectUnauthorized: false}
 }

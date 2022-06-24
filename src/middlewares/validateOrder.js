@@ -12,9 +12,8 @@ export default async function validateOrder(req, res,next){
        
         const idCake = await db.query(`SELECT * FROM cakes WHERE id = $1`, [cakeId])
 
-        if(idCake.rowCount === 0){
-            
-            return res.sendStatus(404)
+        if(idCake.rowCount === 0){            
+            return res.status(404)
         }
 
         if(quantity <= 0 || quantity > 5){

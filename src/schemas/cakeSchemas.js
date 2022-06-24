@@ -5,6 +5,7 @@ const cakeSchema = Joi.object({
     price: Joi.number().positive(),
     description: Joi.string().allow(null, ""),
     image: Joi.string().uri().required(),
+    flavourId: Joi.number()
 })
 
 export default cakeSchema;
